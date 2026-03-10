@@ -54,10 +54,10 @@ export async function GET() {
     const allMonths = Array.from(monthlyData.keys()).sort();
     const latestYear = allMonths.length > 0 ? allMonths[allMonths.length - 1].slice(0, 4) : "2026";
     const latestYearMonthCount = allMonths.filter(m => m.startsWith(latestYear)).length;
-    const years = [...new Set(allMonths.map(m => m.slice(0, 4)))].sort();
+    const years = Array.from(new Set(allMonths.map(m => m.slice(0, 4)))).sort();
     const prevYear = years.length >= 2 ? years[years.length - 2] : null;
 
-    function computeGrowthRate(yearMonths: Map<string, number>): number {
+    const computeGrowthRate = (yearMonths: Map<string, number>): number => {
       const currentCount = yearMonths.get(latestYear) || 0;
       const prevCount = prevYear ? (yearMonths.get(prevYear) || 0) : 0;
       if (prevCount === 0 || latestYearMonthCount === 0) return 0;
