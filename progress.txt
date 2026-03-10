@@ -16,4 +16,81 @@
 - Dev: next dev -p 3300
 
 ## Learnings
-(will be appended by Builder)
+- Amphur names in DB have "อ." prefix on some rows — normalizeAmphurName() strips it
+- Function declarations inside try blocks fail TS strict mode — use arrow functions
+- Map iteration with `for...of` requires downlevelIteration or ES2015 target — use Array.from().forEach()
+- GeoJSON features have centroid in properties — access via `(props as Record<string, unknown>).centroid`
+- Canvas charts need DPR scaling for retina displays
+- API route: `export const dynamic = "force-dynamic"` for SQLite-backed routes
+
+## Completed Stories
+
+### US-001 — Project Foundation (commit: 41d79d5)
+- globals.css with CSS custom properties, glassmorphism utilities, animations
+- Root layout with dark theme + font imports
+- AppShell, Header (live clock), TabBar (CORE | ADVANCED sections)
+- Data layer: db.ts (better-sqlite3 singleton), sectors.ts (15 TSIC sectors), amphurs.ts (25 amphurs)
+- Format utilities: formatBaht, formatNumber, formatPercent, formatMonth
+- Types: TabId, Tab definitions for 7 tabs
+- Homepage redirects to /dashboard
+
+### US-002 — API Routes (commit: 7e373a0)
+- GET /api/overview — KPIs, monthly trend, sector breakdown, YTD comparison
+- GET /api/sectors — All sectors with stats, growth rate, top companies/districts
+- GET /api/districts — All amphurs with stats, population, business density
+- GET /api/graph — Nodes (sectors, districts, size tiers) + edges
+- GET /api/capital — Monthly capital flows, distribution, top registrations
+
+### US-003 — Overview Tab (commit: 9f4f3b6)
+- KPICard with accent colors, staggered fade-in animation, glow effect
+- TrendChart: Custom Canvas bar chart with 17 months, gold capital line overlay
+- SectorDonut: Canvas donut with 8 sectors + legend
+- OverviewTab: Fetches /api/overview, shimmer loading, responsive grid
+
+### US-004 — Knowledge Graph Canvas (commit: 64c56c7)
+- KnowledgeGraphCanvas: Full Canvas2D implementation with requestAnimationFrame loop
+- Circular layout: sectors center ring, districts outer, size tiers inner
+- Node rendering: circles (sectors with glow), rounded rects (districts), diamonds (sizes)
+- Edge rendering: bezier curves with weight-based opacity
+- Particle animation: dots flowing along strong edges
+- Interactions: hover highlight/dim, click select, panning, zoom
+- Legend overlay at bottom-left
+- GraphTab: Wrapper with canvas + placeholder inspector
+
+### US-005 — Node Inspector Panel (commit: 3651053)
+- NodeInspector: Fetches sector/district detail based on selected node type
+- Stat grid: registrations, capital, growth, market share, population, density
+- MiniBarChart: Horizontal bars for top districts/sectors
+- Connections list: Clickable linked nodes
+- Empty state with shield icon
+- Integrated with GraphTab replacing placeholder
+
+### US-006 — Sector Analysis Tab (commit: 5f495c1)
+- SectorTable: Sortable columns, expandable rows with detail view
+- Row expansion: top companies, district distribution bars, monthly trend mini bars
+- SparkLine: SVG inline sparklines for each sector
+- OpportunityMatrix: Canvas bubble scatter plot (capital × growth × count)
+- Quadrant labels, zero-line, axis labels
+
+### US-007 — District Intelligence Tab (commit: aa58b3f)
+- DistrictMap: Canvas-based choropleth rendering GeoJSON boundaries
+- Metric toggle: Registrations | Capital | Density
+- Color scale: dark blue → bright blue based on metric value
+- Click-to-select district (centroid proximity hit testing)
+- DistrictDetail: Full detail panel with KPI row, sector bars, monthly trend, top registrations
+- GeoJSON API route at /api/geo
+- Empty state with map icon
+
+### US-008 — Polish (commit: 0c0ff30)
+- Tab persistence via URL query param (?tab=sectors)
+- Smooth tab transitions (opacity + translateY animation)
+- Responsive tab bar with horizontal scroll
+- ErrorState component with retry button
+- Shimmer component for consistent loading skeletons
+- Additional CSS animations (numberGlow, tabEnter)
+- Mobile-responsive glass-card border radius
+- README.md with full documentation
+
+## Build Status
+All 8 stories passing. Clean build with zero TypeScript errors.
+Final bundle: 98.4 kB (dashboard page), 87.1 kB shared.

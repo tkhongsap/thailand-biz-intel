@@ -62,7 +62,7 @@
       "id": "US-008",
       "title": "Polish — Animations, Responsive & Final Integration",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "depends": ["US-003", "US-005", "US-006", "US-007"],
       "notes": "Final polish pass across all tabs:\n\n1. **Animations**: Staggered fade-in for KPI cards (100ms delay each), count-up animation for all numeric values (1s duration), smooth tab transitions (opacity + translateY).\n2. **Responsive**: Mobile-first adjustments — KPI cards stack to 2 cols, charts stack vertically, inspector panel becomes bottom drawer on mobile, map goes full width with detail panel below.\n3. **Loading states**: All panels show shimmer skeleton while data loads. Consistent skeleton component.\n4. **Error states**: Friendly error display if API fails. Retry button.\n5. **Tab persistence**: Remember active tab in URL query param (?tab=sectors).\n6. **Performance**: Lazy load Knowledge Graph canvas and Leaflet map (dynamic import). Memoize expensive calculations.\n7. **README.md**: Project overview, setup instructions, architecture, data sources, deployment guide (including Replit).\n\nEverything must build clean with `npx next build`. Zero TypeScript errors."
     }
