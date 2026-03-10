@@ -1,0 +1,70 @@
+{
+  "projectName": "Thailand Business Intelligence Dashboard — Phase 1",
+  "branchName": "main",
+  "description": "Build the core business intelligence dashboard: Overview, Knowledge Graph, Sector Analysis, and District Intelligence tabs. CMKL-grade visual polish with real DBD data.",
+  "stories": [
+    {
+      "id": "US-001",
+      "title": "Project Foundation — Layout, Design System & Data Layer",
+      "priority": "P0",
+      "passes": false,
+      "notes": "Set up the full Next.js app foundation:\n\n1. **Global CSS** with CSS custom properties (colors from PRD: --bg-deep #0a1520, --accent-blue #0ea5e9, --accent-gold #d4a843, --accent-green #22c55e, --accent-red #ef4444, --accent-purple #8b5cf6, --accent-cyan #06b6d4, --text-primary #e2e8f0, --text-secondary #94a3b8, --text-muted #475569, --bg-panel rgba(15,23,42,0.6), --bg-surface #111827, --border-subtle rgba(30,48,68,0.6)). Google Fonts: Space Grotesk, JetBrains Mono, Noto Sans Thai.\n2. **Glassmorphism utilities**: .glass-card, .hover-glow, .live-badge, .shimmer (loading skeleton animation).\n3. **Root layout** (src/app/layout.tsx): dark theme, html lang=th, font imports.\n4. **AppShell component**: Header bar + main content area + bottom TabBar.\n5. **Header**: Brand mark 'TH-BIZ INTEL' with shield+chart icon, 'AREA-BASED BUSINESS INTELLIGENCE · CHIANG MAI' subtitle, live status dot, clock (Bangkok time), language toggle (TH/EN).\n6. **TabBar** at bottom: 7 tabs in 2 sections. CORE section: Overview, Knowledge Graph, Sectors, Districts. ADVANCED section: Capital Flows, Simulator, AI Briefing. Active tab has blue bottom border + blue text. Section labels (CORE | ADVANCED) with divider.\n7. **Data layer** (src/lib/db.ts): Initialize better-sqlite3 from data/db/intelligence.db. Export getDb() singleton.\n8. **TSIC sector mapping** (src/lib/sectors.ts): Map business_code ranges to human-readable sector names with colors and icons. Sectors: Hospitality (55xxx-56xxx, gold), Construction (41xxx-43xxx, orange), Retail (47xxx, cyan), Real Estate (68xxx, green), Tourism (79xxx, blue), Consulting (70xxx, purple), Marketing (73xxx, pink), Transport (49xxx, teal), Healthcare (75xxx, red), Business Services (82xxx, indigo), Wholesale (46xxx, amber), Other (gray).\n9. **Amphur data** (src/lib/amphurs.ts): Load from data/geo/chiang-mai-amphurs.json.\n10. **Homepage** redirects to /dashboard.\n11. **/dashboard page**: Renders AppShell with tab state, passes activeTab to content area.\n\nApp must build clean with `npx next build`."
+    },
+    {
+      "id": "US-002",
+      "title": "API Routes — Business Data Endpoints",
+      "priority": "P0",
+      "passes": false,
+      "depends": ["US-001"],
+      "notes": "Create all API routes that power the dashboard:\n\n1. **GET /api/overview** — Returns aggregated KPIs: totalRegistrations, totalCapital, avgCapital, topSector (name + count + share%), topDistrict (name + count), monthlyTrend (last 18 months: [{month, count, capital}]), sectorBreakdown ([{sector, count, capital, share}]), ytdVsLastYear delta.\n2. **GET /api/sectors** — Returns all sectors with: name, color, icon, registrationCount, totalCapital, avgCapital, growthRate (YoY%), marketShare%, topDistricts [{name, count}], monthlyTrend [{month, count}].\n3. **GET /api/sectors/[sectorId]** — Detail for one sector: all above + topCompanies [{name, capital, date, district}], districtDistribution [{amphur, count, capital}].\n4. **GET /api/districts** — Returns all amphurs with: name_th, name_en, code, registrationCount, totalCapital, avgCapital, topSectors [{sector, count}], population (from CSV), businessDensity (registrations per 10k population).\n5. **GET /api/districts/[amphurCode]** — Detail: all above + monthlyTrend, recentRegistrations (last 10), sectorBreakdown.\n6. **GET /api/graph** — Returns nodes and edges for knowledge graph. Nodes: top 10 sectors + top 10 districts + 4 company size tiers. Edges: district→sector (weighted by count), sector→size (capital distribution).\n7. **GET /api/capital** — Monthly capital flows: [{month, sectors: [{name, capital}]}], capitalDistribution: [{range, count, totalCapital}], topRegistrations (top 20 by capital).\n\nAll routes use the db singleton and sector mapping. Return proper JSON with error handling."
+    },
+    {
+      "id": "US-003",
+      "title": "Overview Tab — KPI Bar & Charts",
+      "priority": "P1",
+      "passes": false,
+      "depends": ["US-002"],
+      "notes": "Build the Overview tab (default landing view):\n\n1. **KPI Command Bar** — 5 glass-card KPI cards in a responsive row (2 cols mobile, 5 cols desktop):\n   - Total Registrations YTD (large number in Space Grotesk, trend arrow ▲▼ with % vs last year, blue accent)\n   - Total Capital Deployed (฿ formatted with M/B suffix, gold accent)\n   - Avg Capital per Business (฿, cyan accent)\n   - Top Sector (sector name + % share, green accent)\n   - Top District (amphur name + count, purple accent)\n   Each card: label (JetBrains Mono uppercase 9px), value (Space Grotesk bold 24px), subtitle, colored left border (4px), staggered fade-in animation.\n\n2. **Registration Trend Chart** (left 60% of a 2-column layout below KPI bar):\n   - Custom Canvas or SVG bar chart showing 18 months of registrations\n   - Bars stacked by top 5 sectors with sector colors\n   - X-axis: month labels. Y-axis: count.\n   - Gold line overlay for cumulative capital (secondary Y-axis)\n   - Hover tooltip with month details\n\n3. **Sector Breakdown** (right 40%):\n   - Donut/ring chart showing sector distribution by registration count\n   - Legend with sector name, count, % share\n   - Center text: total count\n   - Sector colors from mapping\n\nAll data fetched from /api/overview. Loading skeletons (shimmer) while fetching. Must look premium — glassmorphism panels, proper spacing, smooth animations."
+    },
+    {
+      "id": "US-004",
+      "title": "Knowledge Graph — Canvas Visualization",
+      "priority": "P1",
+      "passes": false,
+      "depends": ["US-002"],
+      "notes": "Build the Knowledge Graph tab:\n\n1. **Full-width Canvas** (takes remaining height after header/tabs) with dark grid background (subtle lines at 40px spacing, color rgba(30,48,68,0.15)).\n\n2. **Node rendering** from /api/graph data:\n   - Sector nodes: Circle with sector color, 20px radius, label below. Glow effect (shadow in sector color at 0.3 opacity).\n   - District nodes: Rounded rect with green tint, 16px, label below.\n   - Company size nodes: Diamond shape with gold tint, smaller.\n   - All nodes have subtle pulse animation.\n\n3. **Edge rendering**:\n   - Curved bezier lines between connected nodes.\n   - Line opacity based on edge weight.\n   - Animated particle flow along edges (small dots moving along the path, blue/gold colored).\n   - Edge color inherits from source node.\n\n4. **Layout**: Force-directed or pre-computed circular layout. Sectors in center ring, districts in outer ring, size tiers in inner ring.\n\n5. **Interactions**:\n   - Hover node: highlight node + connected edges, dim others. Show tooltip with node name + key metric.\n   - Click node: select → update inspector panel (US-005).\n   - Canvas panning (drag background) and basic zoom.\n\n6. **Legend** at bottom-left: Node type indicators with colors.\n\n7. **Performance**: requestAnimationFrame loop, 60fps target. Efficient hit testing for hover/click.\n\nFetch from /api/graph on mount. Loading state while fetching."
+    },
+    {
+      "id": "US-005",
+      "title": "Knowledge Graph — Node Inspector Panel",
+      "priority": "P1",
+      "passes": false,
+      "depends": ["US-004"],
+      "notes": "Add a 300px inspector panel to the right side of the Knowledge Graph canvas:\n\n1. **Empty state**: Shield icon + 'Select a node to inspect' text when nothing selected.\n\n2. **Selected node view**:\n   - Node color indicator (circle) + name + type badge\n   - **For sector nodes**: Registration count, total capital (฿), avg capital, growth rate, market share %. Mini bar chart of top 5 districts for this sector.\n   - **For district nodes**: Registration count, total capital, population, business density. Mini bar chart of top 5 sectors in this district.\n   - **For size tier nodes**: Count of businesses in this tier, total capital, % of all businesses.\n\n3. **Connections list**: List of connected nodes with edge weight. Each item clickable (selects that node).\n\n4. **Styling**: glass-card background, scrollable content, same design language. Smooth transition when switching nodes."
+    },
+    {
+      "id": "US-006",
+      "title": "Sector Analysis Tab",
+      "priority": "P1",
+      "passes": false,
+      "depends": ["US-002"],
+      "notes": "Build the Sector Analysis tab:\n\n1. **Sector Table** (top section, full width):\n   - Sortable columns: Sector (with color dot + icon), Registrations, Capital (฿), Avg Capital, Growth (YoY%), Market Share (%)\n   - Rows styled with glass-card hover effect\n   - Sort by clicking column headers (default: by registration count desc)\n   - Growth column: green text + ▲ for positive, red + ▼ for negative\n   - JetBrains Mono for numbers, Space Grotesk for sector names\n\n2. **Click to expand row**: Shows inline detail:\n   - Top 5 companies (name, capital, date)\n   - District distribution (horizontal stacked bar showing which districts this sector is concentrated in)\n   - Monthly trend (sparkline)\n\n3. **Sector Opportunity Matrix** (below table, full width, ~300px height):\n   - Scatter/bubble plot using Canvas or SVG\n   - X-axis: Total Capital (market size)\n   - Y-axis: Growth Rate (%)\n   - Bubble size: Number of registrations\n   - Bubble color: Sector color\n   - Quadrant labels: 'High Growth + High Capital' (top-right), etc.\n   - Hover: show sector name + values\n   - Grid lines with subtle styling\n\nFetch from /api/sectors. Loading skeletons."
+    },
+    {
+      "id": "US-007",
+      "title": "District Intelligence Tab — Map & Detail",
+      "priority": "P2",
+      "passes": false,
+      "depends": ["US-002"],
+      "notes": "Build the District Intelligence tab:\n\n1. **Interactive Leaflet Map** (left 65%):\n   - Choropleth of Chiang Mai districts using data/geo/chiang-mai-boundaries.json\n   - Color scale based on selected metric (registration count by default)\n   - Toggle buttons above map: 'Registrations' | 'Capital' | 'Growth' | 'Density'\n   - Each toggle changes the choropleth color scale\n   - Hover district: highlight border, show tooltip (name + value)\n   - Click district: select → update detail panel\n   - Dark tile layer (CartoDB dark_matter or similar)\n   - Fit bounds to Chiang Mai\n\n2. **District Detail Panel** (right 35%):\n   - **Empty state**: Map icon + 'Click a district to explore'\n   - **Selected district**:\n     - Name (TH + EN), population, business density\n     - KPI row: Registrations | Capital | Avg Capital (3 mini cards)\n     - Top 5 sectors bar chart (horizontal bars with sector colors)\n     - Monthly trend (last 12 months sparkline or small bar chart)\n     - Recent notable registrations (top 5 by capital: name, capital, sector)\n\n3. **Styling**: Map in a glass-card container. Panel is glass-card with scrollable content. Smooth transitions.\n\nFetch from /api/districts. Use dynamic import for Leaflet (no SSR). Loading state."
+    },
+    {
+      "id": "US-008",
+      "title": "Polish — Animations, Responsive & Final Integration",
+      "priority": "P2",
+      "passes": false,
+      "depends": ["US-003", "US-005", "US-006", "US-007"],
+      "notes": "Final polish pass across all tabs:\n\n1. **Animations**: Staggered fade-in for KPI cards (100ms delay each), count-up animation for all numeric values (1s duration), smooth tab transitions (opacity + translateY).\n2. **Responsive**: Mobile-first adjustments — KPI cards stack to 2 cols, charts stack vertically, inspector panel becomes bottom drawer on mobile, map goes full width with detail panel below.\n3. **Loading states**: All panels show shimmer skeleton while data loads. Consistent skeleton component.\n4. **Error states**: Friendly error display if API fails. Retry button.\n5. **Tab persistence**: Remember active tab in URL query param (?tab=sectors).\n6. **Performance**: Lazy load Knowledge Graph canvas and Leaflet map (dynamic import). Memoize expensive calculations.\n7. **README.md**: Project overview, setup instructions, architecture, data sources, deployment guide (including Replit).\n\nEverything must build clean with `npx next build`. Zero TypeScript errors."
+    }
+  ]
+}

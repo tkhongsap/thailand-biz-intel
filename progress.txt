@@ -1,0 +1,19 @@
+# Progress — Thailand Business Intelligence Dashboard
+
+## Codebase Patterns
+- Next.js 14 App Router, TypeScript, Tailwind CSS
+- Source in src/ directory
+- Data: better-sqlite3 database at data/db/intelligence.db (4,844 DBD registrations)
+- Geo data: data/geo/ (amphurs JSON, boundaries GeoJSON, population CSV)
+- API routes: src/app/api/
+- Components: src/components/
+- Libs/utils: src/lib/
+- Types: src/types/
+- Design: Dark theme, Bloomberg terminal aesthetic, glassmorphism
+- Fonts: Space Grotesk (display), JetBrains Mono (data), Noto Sans Thai
+- Colors: Blue #0ea5e9, Gold #d4a843, Green #22c55e, Red #ef4444, Purple #8b5cf6
+- Build command: npx next build
+- Dev: next dev -p 3300
+
+## Learnings
+(will be appended by Builder)
