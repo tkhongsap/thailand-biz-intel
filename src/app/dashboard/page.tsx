@@ -3,6 +3,7 @@
 import AppShell from "@/components/AppShell";
 import OverviewTab from "@/components/overview/OverviewTab";
 import GraphTab from "@/components/graph/GraphTab";
+import SectorsTab from "@/components/sectors/SectorsTab";
 import type { TabId } from "@/types";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
@@ -11,6 +12,8 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
       return <OverviewTab />;
     case "knowledge-graph":
       return <GraphTab />;
+    case "sectors":
+      return <SectorsTab />;
     default:
       return (
         <div className="flex items-center justify-center h-full">

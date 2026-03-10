@@ -38,7 +38,7 @@
       "id": "US-005",
       "title": "Knowledge Graph — Node Inspector Panel",
       "priority": "P1",
-      "passes": false,
+      "passes": true,
       "depends": ["US-004"],
       "notes": "Add a 300px inspector panel to the right side of the Knowledge Graph canvas:\n\n1. **Empty state**: Shield icon + 'Select a node to inspect' text when nothing selected.\n\n2. **Selected node view**:\n   - Node color indicator (circle) + name + type badge\n   - **For sector nodes**: Registration count, total capital (฿), avg capital, growth rate, market share %. Mini bar chart of top 5 districts for this sector.\n   - **For district nodes**: Registration count, total capital, population, business density. Mini bar chart of top 5 sectors in this district.\n   - **For size tier nodes**: Count of businesses in this tier, total capital, % of all businesses.\n\n3. **Connections list**: List of connected nodes with edge weight. Each item clickable (selects that node).\n\n4. **Styling**: glass-card background, scrollable content, same design language. Smooth transition when switching nodes."
     },
