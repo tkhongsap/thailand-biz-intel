@@ -4,6 +4,7 @@ import AppShell from "@/components/AppShell";
 import OverviewTab from "@/components/overview/OverviewTab";
 import GraphTab from "@/components/graph/GraphTab";
 import SectorsTab from "@/components/sectors/SectorsTab";
+import DistrictsTab from "@/components/districts/DistrictsTab";
 import type { TabId } from "@/types";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
@@ -14,6 +15,8 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
       return <GraphTab />;
     case "sectors":
       return <SectorsTab />;
+    case "districts":
+      return <DistrictsTab />;
     default:
       return (
         <div className="flex items-center justify-center h-full">

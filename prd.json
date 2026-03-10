@@ -46,7 +46,7 @@
       "id": "US-006",
       "title": "Sector Analysis Tab",
       "priority": "P1",
-      "passes": false,
+      "passes": true,
       "depends": ["US-002"],
       "notes": "Build the Sector Analysis tab:\n\n1. **Sector Table** (top section, full width):\n   - Sortable columns: Sector (with color dot + icon), Registrations, Capital (฿), Avg Capital, Growth (YoY%), Market Share (%)\n   - Rows styled with glass-card hover effect\n   - Sort by clicking column headers (default: by registration count desc)\n   - Growth column: green text + ▲ for positive, red + ▼ for negative\n   - JetBrains Mono for numbers, Space Grotesk for sector names\n\n2. **Click to expand row**: Shows inline detail:\n   - Top 5 companies (name, capital, date)\n   - District distribution (horizontal stacked bar showing which districts this sector is concentrated in)\n   - Monthly trend (sparkline)\n\n3. **Sector Opportunity Matrix** (below table, full width, ~300px height):\n   - Scatter/bubble plot using Canvas or SVG\n   - X-axis: Total Capital (market size)\n   - Y-axis: Growth Rate (%)\n   - Bubble size: Number of registrations\n   - Bubble color: Sector color\n   - Quadrant labels: 'High Growth + High Capital' (top-right), etc.\n   - Hover: show sector name + values\n   - Grid lines with subtle styling\n\nFetch from /api/sectors. Loading skeletons."
     },
