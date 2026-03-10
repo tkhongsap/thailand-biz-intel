@@ -54,7 +54,7 @@
       "id": "US-007",
       "title": "District Intelligence Tab — Map & Detail",
       "priority": "P2",
-      "passes": false,
+      "passes": true,
       "depends": ["US-002"],
       "notes": "Build the District Intelligence tab:\n\n1. **Interactive Leaflet Map** (left 65%):\n   - Choropleth of Chiang Mai districts using data/geo/chiang-mai-boundaries.json\n   - Color scale based on selected metric (registration count by default)\n   - Toggle buttons above map: 'Registrations' | 'Capital' | 'Growth' | 'Density'\n   - Each toggle changes the choropleth color scale\n   - Hover district: highlight border, show tooltip (name + value)\n   - Click district: select → update detail panel\n   - Dark tile layer (CartoDB dark_matter or similar)\n   - Fit bounds to Chiang Mai\n\n2. **District Detail Panel** (right 35%):\n   - **Empty state**: Map icon + 'Click a district to explore'\n   - **Selected district**:\n     - Name (TH + EN), population, business density\n     - KPI row: Registrations | Capital | Avg Capital (3 mini cards)\n     - Top 5 sectors bar chart (horizontal bars with sector colors)\n     - Monthly trend (last 12 months sparkline or small bar chart)\n     - Recent notable registrations (top 5 by capital: name, capital, sector)\n\n3. **Styling**: Map in a glass-card container. Panel is glass-card with scrollable content. Smooth transitions.\n\nFetch from /api/districts. Use dynamic import for Leaflet (no SSR). Loading state."
     },

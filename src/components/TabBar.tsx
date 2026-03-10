@@ -12,7 +12,7 @@ export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
   const advancedTabs = TABS.filter((t) => t.section === "ADVANCED");
 
   return (
-    <nav className="flex items-center gap-1 px-4 py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md">
+    <nav className="flex items-center gap-1 px-4 py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md tab-scroll">
       {/* CORE section */}
       <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-[var(--text-muted)] mr-2">
         Core
