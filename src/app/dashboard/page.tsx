@@ -2,12 +2,15 @@
 
 import AppShell from "@/components/AppShell";
 import OverviewTab from "@/components/overview/OverviewTab";
+import GraphTab from "@/components/graph/GraphTab";
 import type { TabId } from "@/types";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
     case "overview":
       return <OverviewTab />;
+    case "knowledge-graph":
+      return <GraphTab />;
     default:
       return (
         <div className="flex items-center justify-center h-full">

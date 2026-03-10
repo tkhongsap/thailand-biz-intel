@@ -22,7 +22,7 @@
       "id": "US-003",
       "title": "Overview Tab — KPI Bar & Charts",
       "priority": "P1",
-      "passes": false,
+      "passes": true,
       "depends": ["US-002"],
       "notes": "Build the Overview tab (default landing view):\n\n1. **KPI Command Bar** — 5 glass-card KPI cards in a responsive row (2 cols mobile, 5 cols desktop):\n   - Total Registrations YTD (large number in Space Grotesk, trend arrow ▲▼ with % vs last year, blue accent)\n   - Total Capital Deployed (฿ formatted with M/B suffix, gold accent)\n   - Avg Capital per Business (฿, cyan accent)\n   - Top Sector (sector name + % share, green accent)\n   - Top District (amphur name + count, purple accent)\n   Each card: label (JetBrains Mono uppercase 9px), value (Space Grotesk bold 24px), subtitle, colored left border (4px), staggered fade-in animation.\n\n2. **Registration Trend Chart** (left 60% of a 2-column layout below KPI bar):\n   - Custom Canvas or SVG bar chart showing 18 months of registrations\n   - Bars stacked by top 5 sectors with sector colors\n   - X-axis: month labels. Y-axis: count.\n   - Gold line overlay for cumulative capital (secondary Y-axis)\n   - Hover tooltip with month details\n\n3. **Sector Breakdown** (right 40%):\n   - Donut/ring chart showing sector distribution by registration count\n   - Legend with sector name, count, % share\n   - Center text: total count\n   - Sector colors from mapping\n\nAll data fetched from /api/overview. Loading skeletons (shimmer) while fetching. Must look premium — glassmorphism panels, proper spacing, smooth animations."
     },
