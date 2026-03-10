@@ -40,6 +40,16 @@ Stored in `.env`:
 - `AI_MODEL` — Claude model name
 - `PORT` — legacy port reference (not used by Next.js scripts directly)
 
+## Responsive Design
+
+All 7 tabs are responsive across mobile (375px), tablet (768px), and desktop (1280px+):
+- **Header**: Compact padding on mobile, subtitle hidden below `sm` breakpoint
+- **TabBar**: Smaller buttons on mobile, "Adv" section label, horizontal scroll via `tab-scroll`
+- **Districts/Graph**: Side panels stack below content on mobile (`flex-col md:flex-row`)
+- **Simulator**: Slider grid uses `grid-cols-2 md:grid-cols-4`, reduced padding on mobile
+- **Briefing**: Reduced padding on mobile (`p-4 md:p-6`)
+- **Sectors**: Table has `overflow-x-auto` for horizontal scroll on narrow screens
+
 ## Replit Configuration
 
 - Port: **5000** with `0.0.0.0` binding (required for Replit webview)

@@ -397,7 +397,7 @@ export default function SimulatorTab() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-4">
+      <div className="p-4 md:p-6 space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => <div key={i} className="shimmer h-20 rounded-xl" />)}
         </div>
@@ -453,10 +453,10 @@ export default function SimulatorTab() {
   }
 
   return (
-    <div className="p-6 space-y-4 overflow-auto h-full">
+    <div className="p-4 md:p-6 space-y-4 overflow-auto h-full">
       <div className="flex items-center justify-between fade-in-up">
         <div>
-          <h2 className="font-display text-lg font-semibold text-[var(--text-primary)]">
+          <h2 className="font-display text-base md:text-lg font-semibold text-[var(--text-primary)]">
             Scenario Simulator
           </h2>
           <p className="font-mono text-[10px] text-[var(--text-muted)] uppercase tracking-widest mt-0.5">
@@ -471,7 +471,7 @@ export default function SimulatorTab() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <SliderControl
           label="Capital Multiplier"
           value={params.capitalMultiplier}

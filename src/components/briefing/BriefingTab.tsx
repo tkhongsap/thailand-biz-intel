@@ -217,7 +217,7 @@ export default function BriefingTab() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-4">
+      <div className="p-4 md:p-6 space-y-4">
         <div className="shimmer h-12 rounded-xl w-3/4" />
         <div className="shimmer h-6 rounded-xl w-1/2" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -247,7 +247,7 @@ export default function BriefingTab() {
   const trends = insights.filter(i => i.type === "trend");
 
   return (
-    <div className="p-6 space-y-4 overflow-auto h-full">
+    <div className="p-4 md:p-6 space-y-4 overflow-auto h-full">
       <div className="fade-in-up">
         <div className="flex items-center gap-3 mb-1">
           <div className="live-badge">Intelligence Active</div>

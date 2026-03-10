@@ -17,14 +17,12 @@ export default function GraphTab() {
   }, []);
 
   return (
-    <div className="flex h-full">
-      {/* Canvas area */}
-      <div className="flex-1 relative">
+    <div className="flex flex-col md:flex-row h-full overflow-auto md:overflow-hidden">
+      <div className="flex-1 relative min-h-[300px] md:min-h-0">
         <KnowledgeGraphCanvas onNodeSelect={setSelectedNode} />
       </div>
 
-      {/* Inspector panel */}
-      <div className="w-[300px] border-l border-[var(--border-subtle)] bg-[var(--bg-surface)]/50 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="w-full md:w-[300px] border-t md:border-t-0 md:border-l border-[var(--border-subtle)] bg-[var(--bg-surface)]/50 backdrop-blur-sm p-4 overflow-y-auto shrink-0">
         <NodeInspector
           node={selectedNode}
           edges={graphData.edges}
