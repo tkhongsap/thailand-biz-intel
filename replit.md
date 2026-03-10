@@ -16,11 +16,11 @@ A Bloomberg-terminal-inspired business intelligence dashboard for Chiang Mai, Th
 ```
 src/
 ├── app/
-│   ├── api/          # API route handlers (overview, sectors, districts, graph, capital, geo)
+│   ├── api/          # API route handlers (overview, sectors, districts, graph, capital, geo, simulator, briefing)
 │   ├── dashboard/    # Main dashboard page
 │   ├── globals.css
 │   └── layout.tsx
-├── components/       # UI components (AppShell, tabs, charts, map, graph)
+├── components/       # UI components (AppShell, tabs, charts, map, graph, simulator, briefing)
 ├── lib/              # db.ts, format.ts, sectors.ts, amphurs.ts
 └── types/            # Shared TypeScript types
 data/
@@ -36,7 +36,7 @@ data/
 ## Environment Variables
 
 Stored in `.env`:
-- `ANTHROPIC_API_KEY` — Claude API key (for future AI Briefing tab)
+- `ANTHROPIC_API_KEY` — Claude API key (reserved for future live AI features)
 - `AI_MODEL` — Claude model name
 - `PORT` — legacy port reference (not used by Next.js scripts directly)
 

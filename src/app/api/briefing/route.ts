@@ -24,25 +24,24 @@ export async function GET() {
     const totalCapital = allRows.reduce((s, r) => s + (r.capital_thb || 0), 0);
     const avgCapital = totalCount > 0 ? totalCapital / totalCount : 0;
 
-    const sectorData = new Map<string, { count: number; capital: number; y2025: number; y2026: number }>();
-    const districtData = new Map<string, { count: number; capital: number; y2025: number; y2026: number }>();
+    const sectorData = new Map<string, { count: number; capital: number; yearMonths: Map<string, number> }>();
+    const districtData = new Map<string, { count: number; capital: number; yearMonths: Map<string, number> }>();
     const monthlyData = new Map<string, { count: number; capital: number }>();
 
     for (const row of allRows) {
       const sector = getSectorForCode(row.business_code);
-      const s = sectorData.get(sector.id) || { count: 0, capital: 0, y2025: 0, y2026: 0 };
+      const s = sectorData.get(sector.id) || { count: 0, capital: 0, yearMonths: new Map() };
       s.count++;
       s.capital += row.capital_thb || 0;
-      if (row.snapshot_month.startsWith("2025")) s.y2025++;
-      if (row.snapshot_month.startsWith("2026")) s.y2026++;
+      const year = row.snapshot_month.slice(0, 4);
+      s.yearMonths.set(year, (s.yearMonths.get(year) || 0) + 1);
       sectorData.set(sector.id, s);
 
       const district = normalizeAmphurName(row.amphur);
-      const d = districtData.get(district) || { count: 0, capital: 0, y2025: 0, y2026: 0 };
+      const d = districtData.get(district) || { count: 0, capital: 0, yearMonths: new Map() };
       d.count++;
       d.capital += row.capital_thb || 0;
-      if (row.snapshot_month.startsWith("2025")) d.y2025++;
-      if (row.snapshot_month.startsWith("2026")) d.y2026++;
+      d.yearMonths.set(year, (d.yearMonths.get(year) || 0) + 1);
       districtData.set(district, d);
 
       const m = monthlyData.get(row.snapshot_month) || { count: 0, capital: 0 };
@@ -52,12 +51,24 @@ export async function GET() {
     }
 
     const allSectors = [...SECTORS, OTHER_SECTOR];
+    const allMonths = Array.from(monthlyData.keys()).sort();
+    const latestYear = allMonths.length > 0 ? allMonths[allMonths.length - 1].slice(0, 4) : "2026";
+    const latestYearMonthCount = allMonths.filter(m => m.startsWith(latestYear)).length;
+    const years = [...new Set(allMonths.map(m => m.slice(0, 4)))].sort();
+    const prevYear = years.length >= 2 ? years[years.length - 2] : null;
+
+    function computeGrowthRate(yearMonths: Map<string, number>): number {
+      const currentCount = yearMonths.get(latestYear) || 0;
+      const prevCount = prevYear ? (yearMonths.get(prevYear) || 0) : 0;
+      if (prevCount === 0 || latestYearMonthCount === 0) return 0;
+      const annualizedCurrent = (currentCount / latestYearMonthCount) * 12;
+      return ((annualizedCurrent - prevCount) / prevCount) * 100;
+    }
 
     const sectorInsights = Array.from(sectorData.entries())
       .map(([id, data]) => {
         const def = allSectors.find(s => s.id === id) || OTHER_SECTOR;
-        const annualized2026 = data.y2026 > 0 ? (data.y2026 / 2) * 12 : 0;
-        const growthRate = data.y2025 > 0 ? ((annualized2026 - data.y2025) / data.y2025) * 100 : 0;
+        const growthRate = computeGrowthRate(data.yearMonths);
         return {
           id,
           name: def.name,
@@ -83,8 +94,7 @@ export async function GET() {
 
     const districtInsights = Array.from(districtData.entries())
       .map(([name, data]) => {
-        const annualized2026 = data.y2026 > 0 ? (data.y2026 / 2) * 12 : 0;
-        const growthRate = data.y2025 > 0 ? ((annualized2026 - data.y2025) / data.y2025) * 100 : 0;
+        const growthRate = computeGrowthRate(data.yearMonths);
         return {
           name,
           count: data.count,
@@ -122,7 +132,7 @@ export async function GET() {
 
     const latestMonth = monthlyTrend[monthlyTrend.length - 1];
     const prevMonth = monthlyTrend.length > 1 ? monthlyTrend[monthlyTrend.length - 2] : null;
-    const monthOverMonth = prevMonth
+    const monthOverMonth = prevMonth && prevMonth.count > 0
       ? parseFloat((((latestMonth.count - prevMonth.count) / prevMonth.count) * 100).toFixed(1))
       : 0;
 

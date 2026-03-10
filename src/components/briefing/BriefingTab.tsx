@@ -296,39 +296,39 @@ export default function BriefingTab() {
       <ScanlineBar />
 
       {opportunities.length > 0 && (
-        <div className="space-y-2 fade-in-up" style={{ animationDelay: "500ms" }}>
+        <div className="space-y-2 fade-in-up" style={{ animationDelay: "200ms" }}>
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--accent-green)]">
             ● Opportunities Detected
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {opportunities.map((insight, i) => (
-              <InsightCard key={i} insight={insight} delay={600 + i * 100} />
+              <InsightCard key={i} insight={insight} delay={250 + i * 80} />
             ))}
           </div>
         </div>
       )}
 
       {risks.length > 0 && (
-        <div className="space-y-2 fade-in-up" style={{ animationDelay: "700ms" }}>
+        <div className="space-y-2 fade-in-up" style={{ animationDelay: "350ms" }}>
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--accent-red)]">
             ● Risk Signals
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {risks.map((insight, i) => (
-              <InsightCard key={i} insight={insight} delay={800 + i * 100} />
+              <InsightCard key={i} insight={insight} delay={400 + i * 80} />
             ))}
           </div>
         </div>
       )}
 
       {trends.length > 0 && (
-        <div className="space-y-2 fade-in-up" style={{ animationDelay: "900ms" }}>
+        <div className="space-y-2 fade-in-up" style={{ animationDelay: "450ms" }}>
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--accent-blue)]">
             ● Emerging Trends
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {trends.map((insight, i) => (
-              <InsightCard key={i} insight={insight} delay={1000 + i * 100} />
+              <InsightCard key={i} insight={insight} delay={500 + i * 80} />
             ))}
           </div>
         </div>
@@ -337,7 +337,7 @@ export default function BriefingTab() {
       <ScanlineBar />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="glass-card p-4 fade-in-up" style={{ animationDelay: "1100ms" }}>
+        <div className="glass-card p-4 fade-in-up" style={{ animationDelay: "550ms" }}>
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)] mb-3">
             Sector Performance Matrix
           </p>
@@ -348,7 +348,7 @@ export default function BriefingTab() {
           </div>
         </div>
 
-        <div className="glass-card p-4 fade-in-up" style={{ animationDelay: "1200ms" }}>
+        <div className="glass-card p-4 fade-in-up" style={{ animationDelay: "600ms" }}>
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)] mb-3">
             Capital Concentration Hotspots
           </p>
@@ -375,7 +375,7 @@ export default function BriefingTab() {
         </div>
       </div>
 
-      <div className="glass-card p-4 fade-in-up" style={{ animationDelay: "1300ms" }}>
+      <div className="glass-card p-4 fade-in-up" style={{ animationDelay: "650ms" }}>
         <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)] mb-3">
           Notable High-Capital Registrations
         </p>
@@ -414,7 +414,7 @@ export default function BriefingTab() {
         </div>
       </div>
 
-      <div className="text-center py-2 fade-in-up" style={{ animationDelay: "1400ms" }}>
+      <div className="text-center py-2 fade-in-up" style={{ animationDelay: "700ms" }}>
         <p className="font-mono text-[9px] text-[var(--text-muted)] uppercase tracking-widest">
           End of Briefing • Data Source: Department of Business Development (DBD)
         </p>
