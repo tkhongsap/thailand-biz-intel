@@ -30,7 +30,7 @@
       "id": "US-004",
       "title": "Knowledge Graph — Canvas Visualization",
       "priority": "P1",
-      "passes": false,
+      "passes": true,
       "depends": ["US-002"],
       "notes": "Build the Knowledge Graph tab:\n\n1. **Full-width Canvas** (takes remaining height after header/tabs) with dark grid background (subtle lines at 40px spacing, color rgba(30,48,68,0.15)).\n\n2. **Node rendering** from /api/graph data:\n   - Sector nodes: Circle with sector color, 20px radius, label below. Glow effect (shadow in sector color at 0.3 opacity).\n   - District nodes: Rounded rect with green tint, 16px, label below.\n   - Company size nodes: Diamond shape with gold tint, smaller.\n   - All nodes have subtle pulse animation.\n\n3. **Edge rendering**:\n   - Curved bezier lines between connected nodes.\n   - Line opacity based on edge weight.\n   - Animated particle flow along edges (small dots moving along the path, blue/gold colored).\n   - Edge color inherits from source node.\n\n4. **Layout**: Force-directed or pre-computed circular layout. Sectors in center ring, districts in outer ring, size tiers in inner ring.\n\n5. **Interactions**:\n   - Hover node: highlight node + connected edges, dim others. Show tooltip with node name + key metric.\n   - Click node: select → update inspector panel (US-005).\n   - Canvas panning (drag background) and basic zoom.\n\n6. **Legend** at bottom-left: Node type indicators with colors.\n\n7. **Performance**: requestAnimationFrame loop, 60fps target. Efficient hit testing for hover/click.\n\nFetch from /api/graph on mount. Loading state while fetching."
     },
