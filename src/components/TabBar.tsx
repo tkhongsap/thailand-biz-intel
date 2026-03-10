@@ -5,14 +5,17 @@ import { TABS, type TabId } from "@/types";
 interface TabBarProps {
   activeTab: TabId;
   onTabChange: (tab: TabId) => void;
+  position?: "top" | "bottom";
 }
 
-export default function TabBar({ activeTab, onTabChange }: TabBarProps) {
+export default function TabBar({ activeTab, onTabChange, position = "bottom" }: TabBarProps) {
   const coreTabs = TABS.filter((t) => t.section === "CORE");
   const advancedTabs = TABS.filter((t) => t.section === "ADVANCED");
 
+  const borderClass = position === "top" ? "border-b" : "border-t";
+
   return (
-    <nav className="flex items-center gap-0.5 md:gap-1 px-2 md:px-4 py-1.5 md:py-2 border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md tab-scroll">
+    <nav className={`flex items-center gap-0.5 md:gap-1 px-2 md:px-4 py-1.5 md:py-2 ${borderClass} border-[var(--border-subtle)] bg-[var(--bg-surface)]/80 backdrop-blur-md tab-scroll`}>
       <span className="text-[7px] md:text-[8px] font-mono uppercase tracking-[0.2em] text-[var(--text-muted)] mr-1 md:mr-2 shrink-0">
         Core
       </span>

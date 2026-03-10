@@ -32,6 +32,9 @@ export default function AppShell({ initialTab = "overview", children }: AppShell
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <Header />
+      <div className="md:hidden">
+        <TabBar activeTab={activeTab} onTabChange={handleTabChange} position="top" />
+      </div>
       <main className="flex-1 overflow-hidden">
         <div className="h-full transition-opacity duration-300">
           {children ? children(activeTab) : (
@@ -41,7 +44,9 @@ export default function AppShell({ initialTab = "overview", children }: AppShell
           )}
         </div>
       </main>
-      <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+      <div className="hidden md:block">
+        <TabBar activeTab={activeTab} onTabChange={handleTabChange} position="bottom" />
+      </div>
     </div>
   );
 }

@@ -44,7 +44,7 @@ Stored in `.env`:
 
 All 7 tabs are responsive across mobile (375px), tablet (768px), and desktop (1280px+):
 - **Header**: Compact padding on mobile, subtitle hidden below `sm` breakpoint
-- **TabBar**: Smaller buttons on mobile, "Adv" section label, horizontal scroll via `tab-scroll`
+- **TabBar**: On mobile, renders at the top (below header) to avoid being hidden by phone gesture bars; on desktop, stays at the bottom (Bloomberg terminal style). Smaller buttons on mobile, "Adv" section label, horizontal scroll via `tab-scroll`
 - **Districts/Graph**: Side panels stack below content on mobile (`flex-col md:flex-row`)
 - **Simulator**: Slider grid uses `grid-cols-2 md:grid-cols-4`, reduced padding on mobile
 - **Briefing**: Reduced padding on mobile (`p-4 md:p-6`)
