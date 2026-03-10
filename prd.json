@@ -14,7 +14,7 @@
       "id": "US-002",
       "title": "API Routes — Business Data Endpoints",
       "priority": "P0",
-      "passes": false,
+      "passes": true,
       "depends": ["US-001"],
       "notes": "Create all API routes that power the dashboard:\n\n1. **GET /api/overview** — Returns aggregated KPIs: totalRegistrations, totalCapital, avgCapital, topSector (name + count + share%), topDistrict (name + count), monthlyTrend (last 18 months: [{month, count, capital}]), sectorBreakdown ([{sector, count, capital, share}]), ytdVsLastYear delta.\n2. **GET /api/sectors** — Returns all sectors with: name, color, icon, registrationCount, totalCapital, avgCapital, growthRate (YoY%), marketShare%, topDistricts [{name, count}], monthlyTrend [{month, count}].\n3. **GET /api/sectors/[sectorId]** — Detail for one sector: all above + topCompanies [{name, capital, date, district}], districtDistribution [{amphur, count, capital}].\n4. **GET /api/districts** — Returns all amphurs with: name_th, name_en, code, registrationCount, totalCapital, avgCapital, topSectors [{sector, count}], population (from CSV), businessDensity (registrations per 10k population).\n5. **GET /api/districts/[amphurCode]** — Detail: all above + monthlyTrend, recentRegistrations (last 10), sectorBreakdown.\n6. **GET /api/graph** — Returns nodes and edges for knowledge graph. Nodes: top 10 sectors + top 10 districts + 4 company size tiers. Edges: district→sector (weighted by count), sector→size (capital distribution).\n7. **GET /api/capital** — Monthly capital flows: [{month, sectors: [{name, capital}]}], capitalDistribution: [{range, count, totalCapital}], topRegistrations (top 20 by capital).\n\nAll routes use the db singleton and sector mapping. Return proper JSON with error handling."
     },
